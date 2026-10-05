@@ -1,5 +1,5 @@
 const repo = "https://github.com/amasialabs/nushell-modules"
-const cfg_dir       = ($nu.home-path | path join ".amasia" "nushell")
+const cfg_dir       = ($nu.home-dir | path join ".amasia" "nushell")
 const mods          = ($cfg_dir | path join "modules")
 
 try { ^git --version | ignore } catch { error make { msg: "git not found in PATH" } }
@@ -33,7 +33,7 @@ let alias_line = (if $snipx_taken { "# alias snipx skipped: already exists" } el
 
 let cfg_block = ([
   "# --- Amasia Nushell config ---",
-  "const mods = ($nu.home-path | path join '.amasia' 'nushell' 'modules')",
+  "const mods = ($nu.home-dir | path join '.amasia' 'nushell' 'modules')",
   "source $\"($mods)/amasia/mod.nu\"",
   $alias_line,
   "",

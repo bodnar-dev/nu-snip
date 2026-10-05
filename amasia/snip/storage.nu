@@ -35,7 +35,7 @@ export def snip-data-dir [] {
     let v = $env.AMASIA_NU_DATA_DIR
     if (($v | str length) > 0) { return $v }
   }
-  let base = ($nu.home-path | path join $amasia_root_dirname $amasia_shell_dirname)
+  let base = ($nu.home-dir | path join $amasia_root_dirname $amasia_shell_dirname)
   $base | path join $data_root_dirname
 }
 

@@ -9,7 +9,7 @@ export use files.nu ["source rm" "source ls" "source new"]
 
 # Export snippet runner commands
 use runner.nu
-export use runner.nu ["ls" "run" "show" "paste" "pick"]
+export use runner.nu ["ls" "execute" "show" "paste" "pick"]
 
 # Export config command
 use conf.nu
@@ -140,7 +140,7 @@ def parse-paste-args [args: list<string>] {
 
 # Core dispatcher shared by exported and global snip commands
 def snip-dispatch [subcommand: string = "ls", args: list<string> = []] {
-  let cmd = ($subcommand | str trim | str downcase)
+  let cmd = ($subcommand | str trim | str lowercase)
   let rest = $args
   let stdin_input = $in
 
@@ -195,23 +195,23 @@ def snip-dispatch [subcommand: string = "ls", args: list<string> = []] {
 
     if $use_stdin {
       if (not $has_source) and (not $has_from) {
-        $stdin_input | run
+        $stdin_input | execute
       } else if (not $has_source) and $has_from {
-        $stdin_input | run --from-hash $parsed.from_hash
+        $stdin_input | execute --from-hash $parsed.from_hash
       } else if $has_source and (not $has_from) {
-        $stdin_input | run --source $parsed.source
+        $stdin_input | execute --source $parsed.source
       } else {
-        $stdin_input | run --source $parsed.source --from-hash $parsed.from_hash
+        $stdin_input | execute --source $parsed.source --from-hash $parsed.from_hash
       }
     } else {
       if (not $has_source) and (not $has_from) {
-        run $parsed.target
+        execute $parsed.target
       } else if (not $has_source) and $has_from {
-        run $parsed.target --from-hash $parsed.from_hash
+        execute $parsed.target --from-hash $parsed.from_hash
       } else if $has_source and (not $has_from) {
-        run $parsed.target --source $parsed.source
+        execute $parsed.target --source $parsed.source
       } else {
-        run $parsed.target --source $parsed.source --from-hash $parsed.from_hash
+        execute $parsed.target --source $parsed.source --from-hash $parsed.from_hash
       }
     }
   } else if ($cmd == "paste") {

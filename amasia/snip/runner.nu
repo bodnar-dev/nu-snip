@@ -21,7 +21,7 @@ def copy-to-clipboard [text: string] {
     return { success: true, message: "" }
   }
 
-  let os = ($nu.os-info.name | str downcase)
+  let os = ($nu.os-info.name | str lowercase)
   mut last_result = { success: false, message: "" }
 
   if ($os == "macos" and ((which pbcopy) | length) > 0) {
@@ -340,7 +340,7 @@ export def --env "paste" [
 }
 
 # Execute a snippet by name
-export def "run" [
+export def "execute" [
   target?: string@"nu-complete snip names",           # snip name or row index (optional, can be piped)
   --source: string@"nu-complete snip sources" = "",   # disambiguate when names collide
   --from-hash: string = ""  # load snippets from a specific commit hash
@@ -441,7 +441,7 @@ export def "pick" [
   let selected_source = ($selected_parts | skip 1 | first | str trim)
 
   if $run {
-    run $selected_name --source $selected_source
+    execute $selected_name --source $selected_source
   } else if $clipboard {
     paste $selected_name --clipboard --source $selected_source
   } else {

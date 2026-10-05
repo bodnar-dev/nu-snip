@@ -98,9 +98,9 @@ export def get-history [--limit: int = 20] {
     if ($parts | length) >= 1 {
       let row = ($parts | first)
       {
-        hash: $row.column1,
-        date: $row.column2,
-        message: $row.column3
+        hash: $row.column0,
+        date: $row.column1,
+        message: $row.column2
       }
     } else {
       null
